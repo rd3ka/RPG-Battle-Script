@@ -10,18 +10,22 @@ from time import sleep
     else:
         _ = system('clear')
 '''
+
 #Creating Items
 Shuriken = item("Shuriken","Weapon", "A Ninja Blade Of ATK Type Dealing 80 Damage",80)
-Purple_Rose = item("Purple Rose" , "Poision", "A Potion Of Poistion Dealing 100 Damage",100)
-Kunai = item("Kuani","Weapon","A Ninja Blade of ATK Type Dealing 45 Damage",45)
-Ramen = item("Ramen","Medical","SuperMeal To Increse H.P by 30%", 35)
-item_list = [Shuriken,Poison,Kunai,Ramen]
+Purple_Rose = item("Purple Rose" , "Poison", "A Potion Of Poison Dealing 100 Damage",100)
+Kunai = item("Kunai","Weapon","A Ninja Blade of ATK Type Dealing 45 Damage",45)
+Ramen = item("Ramen","Food","SuperMeal To Increase H.P by 30%", 35)
+Elixer = item("Elixer","Medical","A Potion To Increase H.P by 50%",50)
+item_list = [Shuriken,Purple_Rose,Kunai,Ramen]
+
 # Creating Magic Type : Black
 fire = spell("FIRE",10,100,"Black")
 thunder = spell("THUNDER",10,100,"Black")
 blizzard = spell("BLIZZARD",10,100,"Black")
 meteor = spell("METEOR",20,200,"Black")
 quake = spell("QUAKE",14,140,"Black")
+
 # Creating Magic Type : White
 cure = spell("CURE",18,65,"White")
 cura = spell("CURA",24,80,"White")
@@ -60,14 +64,17 @@ while running:
             continue
         else:
             print(FF.BLUE + FF.BOLD + " You Attacked For " + str(magical_dmg) + " Damage Points" + FF.END)
-     elif player.choice == 3:
+    elif player_choice == 3:
          player.choose_item()
          player_choice = int(input("Choose Magic: ")) - 1
-         item = player.item[player_choice]
-         item_dmg = item.item_dmg()
-         if item.type == "Weapon" || item.type == "Poision":
-             enemy.generate_attack_damage(item_dmg)
-
+         item = player.items[player_choice]
+         item_dmg = item.generate_item_dmg()
+         if item.type == 'Weapon' or item.type == 'Poison':
+             enemy.take_damage(item_dmg)
+             print(FF.BLUE + FF.BOLD + str(item.name) + " Attacked For " + str(item_dmg) + " Damage Point " + FF.END)
+         if item.type == 'Medical' or item.type == 'Food':
+             player.heal(item_dmg)
+             print(FF.BLUE + FF.BOLD + str(item.name) + " Healed For " + str(item_dmg) + " H.P " + FF.END)
 
     print(FF.RED + FF.BOLD + FF.UNDERLINE + "\t\t\t--ENEMY--\t\t\t\t" + FF.END + "\n")
     enemy.choose_action()

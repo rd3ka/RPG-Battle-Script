@@ -33,7 +33,7 @@ class Person:
       self.mp = mp
       self.df = df
       self.magic = magic
-      self.item = item
+      self.items = items
       self.action = ["ATTACK" , "MAGIC" , "ITEMS"]
 
    def generate_attack_damage(self):
@@ -83,4 +83,6 @@ class Person:
    def choose_item(self):
        i = 1
        for item in self.items:
-           print(FF.BOLD + str(i)+" : "+item.name+"\t\t"+FF.END+"Type ")
+           print(FF.BOLD + str(i)+" : "+item.name+"\t\t"+FF.END+"(Type:", str(item.type)+")")
+           i+=1
+       print(FF.UNDERLINE + FF.LGREY + "\t\t\t\t\t\t\t\t\t" + FF.END)
