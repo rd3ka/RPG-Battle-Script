@@ -24,7 +24,8 @@ class FF:
 
 class Person:
 
-   def __init__(self,hp,atk,mp,df,magic,items):
+   def __init__(self,name,hp,atk,mp,df,magic,items):
+      self.name = name
       self.max_hp = hp
       self.hp  = hp
       self.atkl = atk - 10
@@ -35,6 +36,10 @@ class Person:
       self.magic = magic
       self.items = items
       self.action = ["ATTACK" , "MAGIC" , "ITEMS"]
+
+   def get_name(self):
+       return self.name
+
 
    def generate_attack_damage(self):
       return random.randrange(self.atkl,self.atkh)
@@ -83,6 +88,30 @@ class Person:
    def choose_item(self):
        i = 1
        for item in self.items:
-           print(FF.BOLD + str(i)+" : "+item.name+"\t\t"+FF.END+"(Type:", str(item.type)+")")
+           print(FF.BOLD + str(i)+" : "+item["item"].name + FF.END+"\t\t(Type:", str(item["item"].type)+")" + "\t\t(x"+ str(item["quantity"])+")")
            i+=1
        print(FF.UNDERLINE + FF.LGREY + "\t\t\t\t\t\t\t\t\t" + FF.END)
+
+   def get_stats(self):
+       hp_bar = ''
+       hp_tick = (self.hp / self.max_hp) * 100 / 4
+
+       mp_bar = ''
+       mp_tick = (self.mp / self.max_mp) * 100 / 10
+
+       while hp_tick > 0:
+           hp_bar += '█'
+           hp_tick -= 1
+
+       while len(hp_bar) < 25:
+           hp_bar += " "
+
+       while mp_tick > 0:
+           mp_bar += '█'
+           mp_tick -= 1
+
+       while len(mp_bar) < 10:
+           mp_bar += " "
+
+       print(FF.LGREY + FF.BOLD + str(self.name) + ":" + FF.END + " " + str(self.hp)+ "/" +str(self.max_hp) + " " + FF.LGREEN + str(hp_bar) + FF.END
+             + " "+str(self.mp) + "/" +str(self.max_mp) + " " +FF.LBLUE + str(mp_bar) + FF.END + "\n")
