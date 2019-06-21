@@ -37,9 +37,9 @@ cure = spell("CURE",18,65,"White")
 cura = spell("CURA",24,80,"White")
 magic_list = [fire,thunder,blizzard,meteor,quake,cure,cura]
 
-player_name = str.capitalize(input("\t\t\t\t Enter Your Name : "))
+player_name = str(input("\t\t\t\t Enter Your Name : "))
 
-player = Person(player_name,6600,660,90,37,magic_list,item_list)
+player = Person(player_name.upper(),6600,660,90,37,magic_list,item_list)
 enemy = Person('MORIS',5200,610,75,30,[],[])
 
 running = True
