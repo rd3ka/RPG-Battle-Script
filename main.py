@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
-print('\x1bc')
 from classes.game import Person, FF
 from classes.magic import spell
 from classes.inventory import item
-import time
+from os import system, name
+from time import sleep
+
+def clear():
+    if name =='nt':
+        _ = system('cls')
+    else:
+        _ = system('clear')
+
+clear()
 default = [1,2,3]
 #Creating Items
 Shuriken = item("Shuriken","Weapon", "A Ninja Blade Of ATK Type Dealing 80 Damage",80)
@@ -36,9 +44,11 @@ enemy = Person('MORIS',5200,610,75,30,[],[])
 
 running = True
 
-print('\x1bc')
+clear()
 
 while running:
+    print("NAME " + " "+"H.P"+"\t\t\t\t"+"M.P"+"\n")
+
     player.get_stats()
     enemy.get_stats()
     print("\n"+FF.CYAN + FF.BOLD + FF.UNDERLINE + "\t\t\t\t" + '----' +player_name+ '----' + "\t\t\t\t"+FF.END+"\n")
@@ -46,14 +56,14 @@ while running:
     player_choice = int(input(FF.BOLD + FF.CYAN + "USE : " + FF.END))
 
     if player_choice not in default:
-        print('\x1bc')
+        clear()
         continue
 
     if player_choice == 1:
         player_dmg = player.generate_attack_damage()
         enemy.take_damage(player_dmg)
-        print(FF.BLUE + FF.BOLD + "You Attacked For "+str(player_dmg)+" Damage Points" + FF.END)
-        time.sleep(2)
+        print("\t\t\t"+FF.BLUE + FF.BOLD + "You Attacked For "+str(player_dmg)+" Damage Points" + FF.END)
+        sleep(2)
     elif player_choice == 2:
         player.choose_magic()
         player_choice = int(input("Choose Magic: ")) - 1
@@ -61,18 +71,18 @@ while running:
         magical_dmg = spell.generate_spell_damage()
         if spell.type == 'Black':
             enemy.take_damage(magical_dmg)
-            print(FF.BLUE + FF.BOLD + " You Attacked For " + str(magical_dmg) + " Damage Points" + FF.END)
-        time.sleep(2)
+            print("\t\t\t"+FF.BLUE + FF.BOLD + " You Attacked For " + str(magical_dmg) + " Damage Points" + FF.END)
+        sleep(2)
 
         if spell.type == 'White':
             player.heal(magical_dmg)
-            print(FF.BLUE + FF.BOLD + str(spell.name) + " Healed For " + str(magical_dmg) + " H.P " + FF.END)
-            time.sleep(2)
+            print("\t\t\t"+FF.BLUE + FF.BOLD + str(spell.name) + " Healed For " + str(magical_dmg) + " H.P " + FF.END)
+            sleep(2)
 
         player.reduce_mp(spell.cost)
 
         if spell.cost > player.get_mp():
-            print(FF.RED + " You Do Not Have Enough M.P " + FF.END)
+            print("\t\t\t"+FF.RED + " You Do Not Have Enough M.P " + FF.END)
             continue
 
     elif player_choice == 3:
@@ -91,24 +101,24 @@ while running:
          item_dmg = item.generate_item_dmg()
          if item.type == 'Weapon' or item.type == 'Poison':
              enemy.take_damage(item_dmg)
-             print(FF.BLUE + FF.BOLD + str(item.name) + " Attacked For " + str(item_dmg) + " Damage Point " + FF.END)
-             time.sleep(2)
+             print("\t\t\t"+FF.BLUE + FF.BOLD + str(item.name) + " Attacked For " + str(item_dmg) + " Damage Point " + FF.END)
+             sleep(2)
 
          if item.type == 'Medical' or item.type == 'Food':
              player.heal(item_dmg)
              print(FF.BLUE + FF.BOLD + str(item.name) + " Healed For " + str(item_dmg) + " H.P " + FF.END)
-             time.sleep(2)
+             sleep(2)
 
 
-    print(FF.RED + FF.BOLD + FF.UNDERLINE + "\t\t\t--MORIS-\t\t\t\t" + FF.END + "\n")
+    print(FF.RED + FF.BOLD + FF.UNDERLINE + "\t\t\t\t--MORIS-\t\t\t\t" + FF.END + "\n")
     enemy.choose_action()
     enemy_choice = 1
     if enemy_choice == 1:
         enemy_dmg = enemy.generate_attack_damage()
         player.take_damage(enemy_dmg)
-        print(FF.YELLOW + FF.BOLD + "Enemy Attacked with "+str(enemy_dmg)+" Damage Points" + FF.END+"\n")
-        time.sleep(2)
-        print('\x1bc')
+        print("\t\t\t"+FF.YELLOW + FF.BOLD + "Enemy Attacked with "+str(enemy_dmg)+" Damage Points" + FF.END+"\n")
+        sleep(2)
+        clear()
 
     if enemy.get_hp() == 0:
         print(FF.GREEN + FF.BOLD + "YOU WIN" + FF.END)
