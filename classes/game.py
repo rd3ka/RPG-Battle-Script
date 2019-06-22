@@ -112,6 +112,6 @@ class Person:
 
        while len(mp_bar) < 10:
            mp_bar += " "
-
+           
        print(FF.LGREY + FF.BOLD + str(self.name) + ":" + FF.END + " " + str(self.hp)+ "/" +str(self.max_hp) + " " + FF.LGREEN + str(hp_bar) + FF.END
              + " "+str(self.mp) + "/" +str(self.max_mp) + " " +FF.LBLUE + str(mp_bar) + FF.END + "\n")
