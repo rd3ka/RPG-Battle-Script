@@ -47,11 +47,11 @@ running = True
 clear()
 
 while running:
-    print("NAME " + " "+"H.P"+"\t\t\t\t"+"M.P"+"\n")
-
+    print(FF.PINK + FF.BOLD + FF.UNDERLINE + "NAME" + FF.END  + "\t"+ FF.BOLD + FF.PINK + FF.UNDERLINE+"H.P"+"\t\t\t\t"+ FF.END
+          +FF.PINK + FF.BOLD + FF.UNDERLINE +"\t"+"M.P"+ FF.END+"\n")
     player.get_stats()
     enemy.get_stats()
-    print("\n"+FF.CYAN + FF.BOLD + FF.UNDERLINE + "\t\t\t\t" + '----' +player_name+ '----' + "\t\t\t\t"+FF.END+"\n")
+    print("\n"+FF.CYAN + FF.BOLD + FF.UNDERLINE + "\t\t\t\t" + '----' +player_name.upper()+ '----' + "\t\t\t\t"+FF.END+"\n")
     player.choose_action()
     player_choice = int(input(FF.BOLD + FF.CYAN + "USE : " + FF.END))
 
@@ -110,7 +110,7 @@ while running:
              sleep(2)
 
 
-    print(FF.RED + FF.BOLD + FF.UNDERLINE + "\t\t\t\t--MORIS-\t\t\t\t" + FF.END + "\n")
+    print(FF.RED + FF.BOLD + FF.UNDERLINE + "\t\t\t\t----MORIS----\t\t\t\t" + FF.END + "\n")
     enemy.choose_action()
     enemy_choice = 1
     if enemy_choice == 1:
