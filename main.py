@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from classes.game import Person, FF
+from classes.game import Person, FG , BG
 from classes.magic import spell
 from classes.inventory import item
 from os import system, name
@@ -47,13 +47,13 @@ running = True
 clear()
 
 while running:
-    print(FF.PINK + FF.BOLD + FF.UNDERLINE + "NAME" + FF.END  + "\t"+ FF.BOLD + FF.PINK + FF.UNDERLINE+"H.P"+"\t\t\t\t"+ FF.END
-          +FF.PINK + FF.BOLD + FF.UNDERLINE +"\t"+"M.P"+ FF.END+"\n")
+    print(FG.PINK + FG.BOLD + FG.UNDERLINE + "NAME" + FG.END  + "\t\t\t"+ FG.BOLD + FG.PINK + FG.UNDERLINE+"H.P"+"\t\t\t\t"+ FG.END
+          +FG.PINK + FG.BOLD + FG.UNDERLINE +"\t"+"M.P"+ FG.END+"\n")
     player.get_stats()
     enemy.get_stats()
-    print("\n"+FF.CYAN + FF.BOLD + FF.UNDERLINE + "\t\t\t\t" + '----' +player_name.upper()+ '----' + "\t\t\t\t"+FF.END+"\n")
+    print("\n"+FG.CYAN + FG.BOLD + FG.UNDERLINE +  "\t\t\t\t" + BG.lightgrey +'    ' +player_name.upper()+ '    ' + "\t\t\t\t"+FG.END+"\n")
     player.choose_action()
-    player_choice = int(input(FF.BOLD + FF.CYAN + "USE : " + FF.END))
+    player_choice = int(input(FG.BOLD + FG.CYAN +"\t\t"+"USE : " + FG.END))
 
     if player_choice not in default:
         clear()
@@ -62,7 +62,7 @@ while running:
     if player_choice == 1:
         player_dmg = player.generate_attack_damage()
         enemy.take_damage(player_dmg)
-        print("\t\t\t"+FF.BLUE + FF.BOLD + "You Attacked For "+str(player_dmg)+" Damage Points" + FF.END)
+        print("\t\t\t"+FG.BLUE + FG.BOLD + "You Attacked For "+str(player_dmg)+" Damage Points" + FG.END)
         sleep(2)
     elif player_choice == 2:
         player.choose_magic()
@@ -71,18 +71,18 @@ while running:
         magical_dmg = spell.generate_spell_damage()
         if spell.type == 'Black':
             enemy.take_damage(magical_dmg)
-            print("\t\t\t"+FF.BLUE + FF.BOLD + " You Attacked For " + str(magical_dmg) + " Damage Points" + FF.END)
+            print("\t\t\t"+FG.BLUE + FG.BOLD + " You Attacked For " + str(magical_dmg) + " Damage Points" + FG.END)
         sleep(2)
 
         if spell.type == 'White':
             player.heal(magical_dmg)
-            print("\t\t\t"+FF.BLUE + FF.BOLD + str(spell.name) + " Healed For " + str(magical_dmg) + " H.P " + FF.END)
+            print("\t\t\t"+FG.BLUE + FG.BOLD + str(spell.name) + " Healed For " + str(magical_dmg) + " H.P " + FG.END)
             sleep(2)
 
         player.reduce_mp(spell.cost)
 
         if spell.cost > player.get_mp():
-            print("\t\t\t"+FF.RED + " You Do Not Have Enough M.P " + FF.END)
+            print("\t\t\t"+FG.RED + " You Do Not Have Enough M.P " + FG.END)
             continue
 
     elif player_choice == 3:
@@ -94,35 +94,35 @@ while running:
          item = player.items[player_choice]["item"]
 
          if player.items[player_choice]["quantity"] == 0:
-             print(FF.BOLD + FF.LGREY + "\nNoNe Left" + FF.END)
+             print(FG.BOLD + FG.LGREY + "\nNoNe Left" + FG.END)
              continue
 
          player.items[player_choice]["quantity"] -= 1
          item_dmg = item.generate_item_dmg()
          if item.type == 'Weapon' or item.type == 'Poison':
              enemy.take_damage(item_dmg)
-             print("\t\t\t"+FF.BLUE + FF.BOLD + str(item.name) + " Attacked For " + str(item_dmg) + " Damage Point " + FF.END)
+             print("\t\t\t"+FG.BLUE + FG.BOLD + str(item.name) + " Attacked For " + str(item_dmg) + " Damage Point " + FG.END)
              sleep(2)
 
          if item.type == 'Medical' or item.type == 'Food':
              player.heal(item_dmg)
-             print(FF.BLUE + FF.BOLD + str(item.name) + " Healed For " + str(item_dmg) + " H.P " + FF.END)
+             print(FG.BLUE + FG.BOLD + str(item.name) + " Healed For " + str(item_dmg) + " H.P " + FG.END)
              sleep(2)
 
 
-    print(FF.RED + FF.BOLD + FF.UNDERLINE + "\t\t\t\t----MORIS----\t\t\t\t" + FF.END + "\n")
+    print("\n"+FG.CYAN + FG.BOLD + FG.UNDERLINE +  "\t\t\t\t" + BG.lightgrey +'    ' +'MORIS'+ '    ' + "\t\t\t\t"+FG.END+"\n")
     enemy.choose_action()
     enemy_choice = 1
     if enemy_choice == 1:
         enemy_dmg = enemy.generate_attack_damage()
         player.take_damage(enemy_dmg)
-        print("\t\t\t"+FF.YELLOW + FF.BOLD + "Enemy Attacked with "+str(enemy_dmg)+" Damage Points" + FF.END+"\n")
+        print("\t\t\t"+FG.PURPLE + FG.BOLD + "Enemy Attacked For "+str(enemy_dmg)+" Damage Points" + FG.END+"\n")
         sleep(2)
         clear()
 
     if enemy.get_hp() == 0:
-        print(FF.GREEN + FF.BOLD + "YOU WIN" + FF.END)
+        print(FG.GREEN + FG.BOLD + "YOU WIN" + FG.END)
         running = False
     elif player.get_hp() == 0:
-        print(FF.RED + FF.BOLD + "YOU LOST , GAME OVER" + FF.END)
+        print(FG.RED + FG.BOLD + "YOU LOST , GAME OVER" + FG.END)
         running = False

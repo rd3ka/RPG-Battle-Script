@@ -1,7 +1,8 @@
 import random
 from .magic import spell
 from .inventory import item
-class FF:
+
+class FG:
    BLACK = '\033[30m'
    RED = '\033[31m'
    GREEN = '\033[32m'
@@ -21,9 +22,18 @@ class FF:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
+class BG:
+   black='\033[40m'
+   red='\033[41m'
+   green='\033[42m'
+   orange='\033[43m'
+   blue='\033[44m'
+   purple='\033[45m'
+   cyan='\033[46m'
+   lightgrey='\033[47m'
+
 
 class Person:
-
    def __init__(self,name,hp,atk,mp,df,magic,items):
       self.name = name
       self.max_hp = hp
@@ -74,23 +84,23 @@ class Person:
    def choose_action(self):
       i = 1
       for index in self.action:
-         print(FF.LGREEN + FF.BOLD + str(i)+":",str(index)+FF.END)
+         print(FG.LGREEN + FG.BOLD + str(i)+":",str(index)+FG.END)
          i += 1
-      print(FF.UNDERLINE + FF.LGREY + "\t\t\t\t\t\t\t\t\t" + FF.END)
+      print(FG.UNDERLINE + FG.LGREY + "\t\t\t\t\t\t\t\t\t" + FG.END)
 
    def choose_magic(self):
       i = 1
       for spell in self.magic:
-         print(FF.BOLD + str(i)+" : "+spell.name+"\t\t"+FF.END+"(cost:", str(spell.cost)+")")
+         print(FG.BOLD + str(i)+" : "+spell.name+"\t\t"+FG.END+"(cost:", str(spell.cost)+")")
          i +=1
-      print(FF.UNDERLINE + FF.LGREY + "\t\t\t\t\t\t\t\t\t" + FF.END)
+      print(FG.UNDERLINE + FG.LGREY + "\t\t\t\t\t\t\t\t\t" + FG.END)
 
    def choose_item(self):
        i = 1
        for item in self.items:
-           print(FF.BOLD + str(i)+" : "+item["item"].name + FF.END+"\t\t(Type:", str(item["item"].type)+")" + "\t\t(x"+ str(item["quantity"])+")")
+           print(FG.BOLD + str(i)+" : "+item["item"].name + FG.END+"\t\t(Type:", str(item["item"].type)+")" + "\t\t(x"+ str(item["quantity"])+")")
            i+=1
-       print(FF.UNDERLINE + FF.LGREY + "\t\t\t\t\t\t\t\t\t" + FF.END)
+       print(FG.UNDERLINE + FG.LGREY + "\t\t\t\t\t\t\t\t\t" + FG.END)
 
    def get_stats(self):
        hp_bar = ''
@@ -113,5 +123,5 @@ class Person:
        while len(mp_bar) < 10:
            mp_bar += " "
 
-       print(FF.LGREY + FF.BOLD + FF.YELLOW + str(self.name) + FF.END + ":" + "\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FF.LGREEN + str(hp_bar) + FF.END
-             + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FF.LBLUE + str(mp_bar) + FF.END + "\n")
+       print(FG.LGREY + FG.BOLD + FG.YELLOW + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
+             + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.LBLUE + str(mp_bar) + FG.END + "\n")
