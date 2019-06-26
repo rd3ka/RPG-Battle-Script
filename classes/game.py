@@ -102,7 +102,7 @@ class Person:
            i+=1
        print(FG.UNDERLINE + FG.LGREY + "\t\t\t\t\t\t\t\t\t" + FG.END)
 
-   def get_stats(self):
+   def get_player_stats(self):
        hp_bar = ''
        hp_tick = (self.hp / self.max_hp) * 100 / 4
 
@@ -123,5 +123,30 @@ class Person:
        while len(mp_bar) < 10:
            mp_bar += " "
 
-       print(FG.LGREY + FG.BOLD + FG.YELLOW + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
-             + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.LBLUE + str(mp_bar) + FG.END + "\n")
+       print(FG.BOLD + FG.YELLOW + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
+            + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.LBLUE + str(mp_bar) + FG.END + "\n")
+
+   def get_enemy_stats(self):
+       print('='*100 + "\n")
+       hp_bar = ''
+       hp_tick = (self.hp / self.max_hp) * 100 / 4
+
+       mp_bar = ''
+       mp_tick = (self.mp / self.max_mp) * 100 / 10
+
+       while hp_tick > 0:
+           hp_bar += '█'
+           hp_tick -= 1
+
+       while len(hp_bar) < 25:
+           hp_bar += " "
+
+       while mp_tick > 0:
+           mp_bar += '█'
+           mp_tick -= 1
+
+       while len(mp_bar) < 10:
+           mp_bar += " "
+
+       print(FG.BOLD + FG.RED + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.RED + str(hp_bar) + FG.END
+            + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.PURPLE + str(mp_bar) + FG.END + "\n")
