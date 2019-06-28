@@ -84,23 +84,20 @@ class Person:
    def choose_action(self):
       i = 1
       for index in self.action:
-         print(FG.LGREEN + FG.BOLD + str(i)+":",str(index)+FG.END)
+         print("\t\t"+FG.YELLOW + FG.BOLD + str(i)+":",str(index)+FG.END)
          i += 1
-      print(FG.UNDERLINE + FG.LGREY + "\t\t\t\t\t\t\t\t\t" + FG.END)
 
    def choose_magic(self):
       i = 1
       for spell in self.magic:
          print(FG.BOLD + str(i)+" : "+spell.name+"\t\t"+FG.END+"(cost:", str(spell.cost)+")")
          i +=1
-      print(FG.UNDERLINE + FG.LGREY + "\t\t\t\t\t\t\t\t\t" + FG.END)
 
    def choose_item(self):
        i = 1
        for item in self.items:
            print(FG.BOLD + str(i)+" : "+item["item"].name + FG.END+"\t\t(Type:", str(item["item"].type)+")" + "\t\t(x"+ str(item["quantity"])+")")
            i+=1
-       print(FG.UNDERLINE + FG.LGREY + "\t\t\t\t\t\t\t\t\t" + FG.END)
 
    def get_player_stats(self):
        hp_bar = ''
@@ -123,7 +120,7 @@ class Person:
        while len(mp_bar) < 10:
            mp_bar += " "
 
-       print(FG.BOLD + FG.YELLOW + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
+       print("\t"+FG.BOLD + FG.LGREEN + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
             + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.LBLUE + str(mp_bar) + FG.END + "\n")
 
    def get_enemy_stats(self):
@@ -139,14 +136,24 @@ class Person:
            hp_tick -= 1
 
        while len(hp_bar) < 25:
-           hp_bar += " "
+            hp_bar += " "
 
        while mp_tick > 0:
            mp_bar += '█'
            mp_tick -= 1
 
-       while len(mp_bar) < 10:
+       while len(mp_bar) < 10 :
            mp_bar += " "
 
-       print(FG.BOLD + FG.RED + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.RED + str(hp_bar) + FG.END
-            + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.PURPLE + str(mp_bar) + FG.END + "\n")
+       if len(self.name) > 4 and len(self.name) < 13:
+          space = "\t\t"
+
+       if len(self.name) <= 4 :
+          space = "\t\t\t"
+
+       if len(self.name) > 13 :
+          space = "\t"
+
+
+       print("\t"+ FG.BOLD + FG.RED + str(self.name) + FG.END + ":" + space + str(self.hp)+ "/" +str(self.max_hp) + "  " + FG.RED + str(hp_bar) + FG.END
+            + "  "+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.PURPLE + str(mp_bar) + FG.END + "\n")
