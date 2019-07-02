@@ -1,7 +1,6 @@
 import random
 from .magic import spell
-from .inventory import item
-
+from .inventory import item    
 class FG:
    BLACK = '\033[30m'
    RED = '\033[31m'
@@ -120,7 +119,16 @@ class Person:
        while len(mp_bar) < 10:
            mp_bar += " "
 
-       print("\t"+FG.BOLD + FG.LGREEN + str(self.name) + FG.END + " : " + "\t\t" + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
+       if len(self.name) > 4 and len(self.name) < 13 :
+           space = '\t\t'
+
+       if len(self.name) < 5 :
+           space = '\t\t\t'
+
+       if len(self.name) > 13 :
+           space = '\t'
+
+       print("\t"+FG.BOLD + FG.LGREEN + str(self.name) + FG.END + " : " + str(space)  + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
             + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.LBLUE + str(mp_bar) + FG.END + "\n")
 
    def get_enemy_stats(self):
@@ -132,28 +140,27 @@ class Person:
        mp_tick = (self.mp / self.max_mp) * 100 / 10
 
        while hp_tick > 0:
-           hp_bar += '█'
-           hp_tick -= 1
+          hp_bar += '█'
+          hp_tick -= 1
 
        while len(hp_bar) < 25:
-            hp_bar += " "
+          hp_bar += " "
 
        while mp_tick > 0:
-           mp_bar += '█'
-           mp_tick -= 1
+       	  mp_bar += '█'
+          mp_tick -= 1
 
        while len(mp_bar) < 10 :
-           mp_bar += " "
+       	  mp_bar += " "
 
        if len(self.name) > 4 and len(self.name) < 13:
-          space = "\t\t"
+          space = '\t\t'
 
-       if len(self.name) <= 4 :
-          space = "\t\t\t"
+       if len(self.name) < 5:
+          space = '\t\t\t'
 
-       if len(self.name) > 13 :
-          space = "\t"
+       if len(self.name) > 13:
+          space = '\t'
 
-
-       print("\t"+ FG.BOLD + FG.RED + str(self.name) + FG.END + ":" + space + str(self.hp)+ "/" +str(self.max_hp) + "  " + FG.RED + str(hp_bar) + FG.END
+       print("\t"+ FG.BOLD + FG.RED + str(self.name) + FG.END + ":" + str(space) + str(self.hp)+ "/" +str(self.max_hp) + "  " + FG.RED + str(hp_bar) + FG.END
             + "  "+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.PURPLE + str(mp_bar) + FG.END + "\n")

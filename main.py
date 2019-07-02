@@ -60,7 +60,7 @@ while running:
 
     enemy.get_enemy_stats()
 
-#---------------------------------------------------------Hero--------------------------------------------------------------------------#
+#-------------------------------------------------------------Hero--------------------------------------------------------------------------#
 
     for player in players:
         p_name = player.get_name()
@@ -76,7 +76,7 @@ while running:
             player_dmg = player.generate_attack_damage()
             enemy.take_damage(player_dmg)
             print("\t\t\t"+FG.BLUE + FG.BOLD + p_name +" Attacked For "+str(player_dmg)+" Damage Points" + FG.END)
-            sleep(2)
+            sleep(0.5)
 
         elif player_choice == 2:
             player.choose_magic()
@@ -87,11 +87,11 @@ while running:
             if spell.type == 'Black':
                 enemy.take_damage(magical_dmg)
                 print("\t\t\t"+FG.BLUE + FG.BOLD + p_name + " Attacked For " + str(magical_dmg) + " Damage Points" + FG.END)
-                sleep(2)
+                sleep(0.5)
             if spell.type == 'White':
                 player.heal(magical_dmg)
                 print("\t\t\t"+FG.BLUE + FG.BOLD + str(spell.name) + " Healed For " + str(magical_dmg) + " H.P " + FG.END)
-                sleep(2)
+                sleep(0.5)
 
                 player.reduce_mp(spell.cost)
 
@@ -116,14 +116,14 @@ while running:
             if item.type == 'Weapon' or item.type == 'Poison':
                 enemy.take_damage(item_dmg)
                 print("\t\t\t"+FG.BLUE + FG.BOLD + str(item.name) + " Attacked For " + str(item_dmg) + " Damage Point " + FG.END)
-                sleep(2)
+                sleep(0.5)
 
             if item.type == 'Medical' or item.type == 'Food':
                 player.heal(item_dmg)
                 print("\t\t\t"+FG.BLUE + FG.BOLD + str(item.name) +" Healed For " + str(item_dmg) + " H.P " + FG.END)
-                sleep(2)
+                sleep(0.5)
 
-    #-------------------------------------------------------------------ENEMY-----------------------------------------------------#
+    #----------------------------------------------------------ENEMY---------------------------------------------------------------#
 
     print("\n"+FG.BLACK + FG.BOLD + FG.UNDERLINE +  "\t\t\t\t" + BG.lightgrey +'    ' +'MELIODUS'+ '    ' + "\t\t\t\t"+FG.END+"\n")
     enemy.choose_action()
