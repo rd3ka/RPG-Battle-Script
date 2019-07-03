@@ -1,6 +1,18 @@
 import random
 from .magic import spell
-from .inventory import item    
+from .inventory import item
+
+def spaces(spaces):
+    t=""
+    for space in range(spaces):
+        t += " "
+    return t
+def tabs(tabs):
+    t=""
+    for tab in range(tabs):
+        t += "\t"
+    return t
+
 class FG:
    BLACK = '\033[30m'
    RED = '\033[31m'
@@ -44,123 +56,107 @@ class Person:
       self.df = df
       self.magic = magic
       self.items = items
-      self.action = ["ATTACK" , "MAGIC" , "ITEMS"]
+      self.action = ["ATTACK","MAGIC","ITEMS"]
 
    def get_name(self):
        return self.name
-
-
    def generate_attack_damage(self):
       return random.randrange(self.atkl,self.atkh)
-
-
    def take_damage(self,dmg):
       self.hp = self.hp - dmg
       if self.hp < 0:
          self.hp = 0
-      #return self.hp
-
    def reduce_mp(self,cost):
       self.mp = self.mp - cost
-
    def heal(self,dmg):
       if self.hp < self.max_hp :
          self.hp = self.hp + dmg
-      #return self.hp
-
    def get_hp(self):
       return self.hp
-
    def get_mp(self):
       return self.mp
-
    def get_max_hp(self):
       return self.max_hp
-
    def get_max_mp(self):
       return self.max_mp
 
    def choose_action(self):
       i = 1
       for index in self.action:
-         print("\t\t"+FG.YELLOW + FG.BOLD + str(i)+":",str(index)+FG.END)
+         print(tabs(2)+FG.YELLOW+FG.BOLD+str(i)+":",str(index)+FG.END)
          i += 1
-
    def choose_magic(self):
       i = 1
       for spell in self.magic:
-         print(FG.BOLD + str(i)+" : "+spell.name+"\t\t"+FG.END+"(cost:", str(spell.cost)+")")
-         i +=1
-
+          if(len(spell.name)>=7):
+              gap = 1
+          if(len(spell.name)<6):
+              gap = 2
+          print(tabs(4)+FG.LCYAN+FG.BOLD+str(i)+":"+spell.name+tabs(gap)+FG.END+"(cost:",str(spell.cost)+")")
+          i +=1
    def choose_item(self):
        i = 1
        for item in self.items:
-           print(FG.BOLD + str(i)+" : "+item["item"].name + FG.END+"\t\t(Type:", str(item["item"].type)+")" + "\t\t(x"+ str(item["quantity"])+")")
+           if(len(item["item"].name)>=6):
+               gap = 2
+           if(len(item["item"].name)<6):
+               gap = 3
+           print(tabs(4)+FG.BLUE+FG.BOLD+str(i)+":"+item["item"].name+FG.END+tabs(gap)+"(Type:",str(item["item"].type)
+                 +")"+tabs(2)+"(x"+ str(item["quantity"])+")")
            i+=1
 
    def get_player_stats(self):
        hp_bar = ''
-       hp_tick = (self.hp / self.max_hp) * 100 / 4
-
+       hp_tick = (self.hp/self.max_hp)*100/4
        mp_bar = ''
-       mp_tick = (self.mp / self.max_mp) * 100 / 10
+       mp_tick = (self.mp/self.max_mp)*100/10
 
        while hp_tick > 0:
            hp_bar += '█'
            hp_tick -= 1
-
        while len(hp_bar) < 25:
            hp_bar += " "
-
        while mp_tick > 0:
            mp_bar += '█'
            mp_tick -= 1
-
        while len(mp_bar) < 10:
            mp_bar += " "
 
        if len(self.name) > 4 and len(self.name) < 13 :
            space = '\t\t'
-
        if len(self.name) < 5 :
            space = '\t\t\t'
-
        if len(self.name) > 13 :
            space = '\t'
 
-       print("\t"+FG.BOLD + FG.LGREEN + str(self.name) + FG.END + " : " + str(space)  + str(self.hp)+ "/" +str(self.max_hp) + "    " + FG.LGREEN + str(hp_bar) + FG.END
-            + "\t"+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.LBLUE + str(mp_bar) + FG.END + "\n")
+       print("\t"+FG.BOLD+FG.LGREEN+str(self.name)+FG.END+" : "+str(space)+str(self.hp)+"/"+str(self.max_hp)+spaces(4)+FG.LGREEN+str(hp_bar)+FG.END
+            +"\t"+str(self.mp)+"/"+str(self.max_mp)+"\t"+FG.LBLUE+str(mp_bar)+FG.END+"\n")
 
    def get_enemy_stats(self):
-       print('='*100 + "\n")
-       hp_bar = ''
-       hp_tick = (self.hp / self.max_hp) * 100 / 4
+       print('-'*100 + "\n")
 
+       hp_bar = ''
+       hp_tick = (self.hp/self.max_hp)*100/4
        mp_bar = ''
-       mp_tick = (self.mp / self.max_mp) * 100 / 10
+       mp_tick = (self.mp/self.max_mp)*100/10
 
        while hp_tick > 0:
           hp_bar += '█'
           hp_tick -= 1
-
        while len(hp_bar) < 25:
           hp_bar += " "
-
        while mp_tick > 0:
        	  mp_bar += '█'
           mp_tick -= 1
-
        while len(mp_bar) < 10 :
        	  mp_bar += " "
 
        if len(self.name) > 4 and len(self.name) < 13:
           space = '\t\t'
-
        if len(self.name) < 5:
           space = '\t\t\t'
-
        if len(self.name) > 13:
           space = '\t'
 
-       print("\t"+ FG.BOLD + FG.RED + str(self.name) + FG.END + ":" + str(space) + str(self.hp)+ "/" +str(self.max_hp) + "  " + FG.RED + str(hp_bar) + FG.END
-            + "  "+str(self.mp) + "/" +str(self.max_mp) + "\t" +FG.PURPLE + str(mp_bar) + FG.END + "\n")
+       print("\t"+FG.BOLD+FG.RED+str(self.name)+FG.END+":"+str(space)+str(self.hp)+"/"+str(self.max_hp)+spaces(2)+FG.RED+str(hp_bar)+FG.END
+            +spaces(2)+str(self.mp)+"/"+str(self.max_mp)+"\t"+FG.PURPLE+str(mp_bar)+FG.END+"\n")
