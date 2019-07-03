@@ -131,7 +131,7 @@ while running:
     enemy.choose_action()
     enemy_choice = 1
     if enemy_choice == 1:
-        enemy_dmg =  int(enemy.generate_attack_damage() / 3)
+        enemy_dmg = int(enemy.generate_attack_damage() / 3)
 
         for player in players:
             player.take_damage(enemy_dmg)
