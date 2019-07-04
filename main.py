@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
+<<<<<<< HEAD
 import readchar
 from classes.game import Person, FG, BG
+=======
+from classes.game import Person,FG,BG
+>>>>>>> 111a255d31e4bd0017d099b7542b1261029e3290
 from classes.magic import spell
 from classes.inventory import item
-from os import system, name
+from os import system,name
 from time import sleep
+from urllib.request import urlopen
+import subprocess
 
 # *Functions-To-Ease-Work*
+def install(name):
+    subprocess.call(['pip','install',name])
+def connection():
+    try:
+        urlopen('http://216.58.192.142',timeout=1)
+        return "Active"
+    except:
+        return "InActive"
 def clear():
     if name == 'nt':
         _ = system('cls')
@@ -22,7 +36,21 @@ def tabs(tabs):
     for tab in range(tabs):
         t += "\t"
     return t
+<<<<<<< HEAD
 # *End-Of-Block*
+=======
+            # *End-Of-Block*
+try:
+    import readchar
+except ImportError:
+    if(connection()=="InActive"):
+        print("\n"+"Installation Of Package ReadChar Failed Due To No-Internet-Connection")
+        print('Try Installing It Manually Or Run This Program Again With An Active-Internet-Connection')
+        exit()
+    elif(connection()=="Active"):
+        install('readchar')
+        import readchar
+>>>>>>> 111a255d31e4bd0017d099b7542b1261029e3290
 clear()
 default = [1, 2, 3]
 # *Object-Initialization*
@@ -70,7 +98,7 @@ while running:
 # *H-E-R-O*
     for player in players:
         p_name = player.get_name()
-        print("\n"+FG.BLACK+FG.BOLD+FG.UNDERLINE+tabs(4)+BG.lightgrey+spaces(5)+p_name.upper()+spaces(5)+tabs(4)+FG.END+"\n")
+        print("\n"+FG.BOLD+tabs(4)+spaces(5)+FG.UNDERLINE+p_name.upper()+FG.END+spaces(5)+tabs(4)+"\n")
         player.choose_action()
         print("\n\t"+FG.BOLD+tabs(2)+"USE : "+FG.END)
         player_choice = int(readchar.readchar())
@@ -97,8 +125,10 @@ while running:
             if spell.type == 'White':
                 player.heal(magical_dmg)
                 print(tabs(3)+FG.BLUE+FG.BOLD+str(spell.name)+" Healed For "+str(magical_dmg)+" H.P "+FG.END)
-                player.reduce_mp(spell.cost)
                 sleep(1)
+            
+            player.reduce_mp(spell.cost)
+
             if spell.cost > player.get_mp():
                 print(tabs(3)+FG.RED+" You Do Not Have Enough M.P "+FG.END)
                 continue
@@ -112,8 +142,8 @@ while running:
                 continue
                 item = player.items[player_choice]["item"]
             if player.items[player_choice]["quantity"] == 0:
-             print(FG.BOLD+FG.LGREY+"\nNoNe Left"+FG.END)
-             continue
+                print(FG.BOLD+FG.LGREY+"\nNoNe Left"+FG.END)
+                continue
             player.items[player_choice]["quantity"] -= 1
             item_dmg = item.generate_item_dmg()
             if item.type == 'Weapon' or item.type == 'Poison':
@@ -127,11 +157,11 @@ while running:
                          # *E-N-D-OF-H-E-R-O*
 
 # *E-N-E-M-Y*
-    print("\n"+FG.BLACK+FG.BOLD+FG.UNDERLINE+tabs(4)+ BG.lightgrey +spaces(4)+'MELIODUS'+spaces(4)+tabs(4)+FG.END+"\n")
+    print("\n"+FG.BOLD+tabs(4)+spaces(4)+FG.UNDERLINE+'MELIODUS'+FG.END+spaces(4)+tabs(4)+"\n")
     enemy.choose_action()
     enemy_choice = 1
     if enemy_choice == 1:
-        enemy_dmg = int(enemy.generate_attack_damage() / 3)
+        enemy_dmg = int(enemy.generate_attack_damage()/3)
 
         for player in players:
             player.take_damage(enemy_dmg)
