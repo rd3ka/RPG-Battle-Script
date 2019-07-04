@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-<<<<<<< HEAD
-import readchar
-from classes.game import Person, FG, BG
-=======
 from classes.game import Person,FG,BG
->>>>>>> 111a255d31e4bd0017d099b7542b1261029e3290
 from classes.magic import spell
 from classes.inventory import item
 from os import system,name
@@ -36,10 +31,8 @@ def tabs(tabs):
     for tab in range(tabs):
         t += "\t"
     return t
-<<<<<<< HEAD
+
 # *End-Of-Block*
-=======
-            # *End-Of-Block*
 try:
     import readchar
 except ImportError:
@@ -50,7 +43,7 @@ except ImportError:
     elif(connection()=="Active"):
         install('readchar')
         import readchar
->>>>>>> 111a255d31e4bd0017d099b7542b1261029e3290
+
 clear()
 default = [1, 2, 3]
 # *Object-Initialization*
@@ -126,7 +119,7 @@ while running:
                 player.heal(magical_dmg)
                 print(tabs(3)+FG.BLUE+FG.BOLD+str(spell.name)+" Healed For "+str(magical_dmg)+" H.P "+FG.END)
                 sleep(1)
-            
+
             player.reduce_mp(spell.cost)
 
             if spell.cost > player.get_mp():
