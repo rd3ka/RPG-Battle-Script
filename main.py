@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import readchar
-from classes.game import Person,FG,BG
+from classes.game import Person, FG, BG
 from classes.magic import spell
 from classes.inventory import item
 from os import system, name
@@ -8,12 +8,12 @@ from time import sleep
 
 # *Functions-To-Ease-Work*
 def clear():
-    if name =='nt':
+    if name == 'nt':
         _ = system('cls')
     else:
         _ = system('clear')
-def spaces(spaces):
-    t=""
+def spaces(spaces) :
+    t = ""
     for space in range(spaces):
         t += " "
     return t
@@ -22,12 +22,12 @@ def tabs(tabs):
     for tab in range(tabs):
         t += "\t"
     return t
-            # *End-Of-Block*
+# *End-Of-Block*
 clear()
-default = [1,2,3]
+default = [1, 2, 3]
 # *Object-Initialization*
-Shuriken = item("Shuriken","Weapon","A Ninja Blade Of ATK Type Dealing 80 Damage",80)
-Purple_Rose = item("Purple Rose","Poison", "A Potion Of Poison Dealing 100 Damage",100)
+Shuriken = item("Shuriken", "Weapon", "A Ninja Blade Of ATK Type Dealing Damage",80)
+Purple_Rose = item("Purple Rose", "Poison", "A Potion Of Poison Dealing Damage",100)
 Kunai = item("Kunai","Weapon","A Ninja Blade of ATK Type Dealing 45 Damage",45)
 Ramen = item("Ramen","Food","SuperMeal To Increase H.P by 30%",35)
 Elixer = item("Elixer","Medical","A Potion To Increase H.P by 50%",50)
@@ -48,7 +48,7 @@ cura = spell("CURA",24,80,"White")
 magic_list = [fire,thunder,blizzard,meteor,quake,cure,cura]
 
 # *Name,Health-Points,Attack,Magic-Points,Defence,Magic-Spells,Items-To-Be-Used*
-player1 = Person(input(FG.BOLD+FG.YELLOW+tabs(2)+"Enter Your Name Hero! : " +FG.END).upper(),6600,660,90,125,magic_list,item_list)
+player1 = Person(input(FG.BOLD+FG.YELLOW+tabs(2)+"Enter Your Name Hero! : " + FG.END).upper(), 6600, 660, 90, 125, magic_list, item_list)
 player2 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "+FG.END).upper(),2400,240,40,75,magic_list,item_list)
 player3 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "+FG.END).upper(),2400,240,40,75,magic_list,item_list)
 
@@ -60,8 +60,8 @@ running = True
 clear()
             # *G-A-M-E--L-O-O-P*
 while running:
-    print("\t"+FG.PINK+FG.BOLD+FG.UNDERLINE+"NAME"+FG.END+tabs(3)+FG.BOLD+FG.PINK+FG.UNDERLINE+"H.P"+tabs(4)+FG.END
-          +FG.PINK+FG.BOLD+FG.UNDERLINE +"\t"+"M.P"+FG.END+"\n")
+    print("\t"+FG.PINK+FG.BOLD+FG.UNDERLINE+"NAME"+FG.END+tabs(3)+FG.BOLD+FG.PINK+FG.UNDERLINE+
+    "H.P"+tabs(4)+FG.END+FG.PINK+FG.BOLD+FG.UNDERLINE +"\t"+"M.P"+FG.END+"\n")
     for player in players:
         player.get_player_stats()
 
