@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from classes.game import Person,FG,BG
+from classes.game import Person,FG
 from classes.magic import spell
 from classes.inventory import item
 from os import system,name
@@ -41,11 +41,16 @@ except ImportError:
         print('Try Installing It Manually Or Run This Program Again With An Active-Internet-Connection')
         exit()
     elif(connection()=="Active"):
+        print("ReadChar Package Not Found, PIP Will Now Install The Lastest Version Of ReadChar For You,Please Wait Till The Installation Completes")
         install('readchar')
         import readchar
 
 clear()
-default = [1, 2, 3]
+default_actions = ['a','m','i','q','A','M','I','Q']
+default_magic = [0,1,2,3,4,5,6]
+default_items = [0,1,2,3,4]
+magic_choice = 0
+item_choice = 0
 # *Object-Initialization*
 Shuriken = item("Shuriken", "Weapon", "A Ninja Blade Of ATK Type Dealing Damage",80)
 Purple_Rose = item("Purple Rose", "Poison", "A Potion Of Poison Dealing Damage",100)
@@ -63,15 +68,15 @@ thunder = spell("THUNDER",10,100,"Black")
 blizzard = spell("BLIZZARD",10,100,"Black")
 meteor = spell("METEOR",20,200,"Black")
 quake = spell("QUAKE",14,140,"Black")
-
 cure = spell("CURE",18,65,"White")
 cura = spell("CURA",24,80,"White")
+
 magic_list = [fire,thunder,blizzard,meteor,quake,cure,cura]
 
 # *Name,Health-Points,Attack,Magic-Points,Defence,Magic-Spells,Items-To-Be-Used*
-player1 = Person(input(FG.BOLD+FG.YELLOW+tabs(2)+"Enter Your Name Hero! : " + FG.END).upper(), 6600, 660, 90, 125, magic_list, item_list)
-player2 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "+FG.END).upper(),2400,240,40,75,magic_list,item_list)
-player3 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "+FG.END).upper(),2400,240,40,75,magic_list,item_list)
+player1 = Person(input(FG.BOLD+FG.YELLOW+tabs(2)+"Enter Your Name Hero : " + FG.END+"\n"+tabs(4)).upper(), 6600, 660, 90, 125, magic_list, item_list)
+player2 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "+FG.END+"\n"+tabs(4)).upper(),2400,240,40,75,magic_list,item_list)
+player3 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "+FG.END+"\n"+tabs(4)).upper(),2400,240,40,75,magic_list,item_list)
 
 players = [player1,player2,player3]
 enemy = Person('MELIODUS',17200,610,75,30,[],[])
@@ -87,28 +92,39 @@ while running:
         player.get_player_stats()
 
     enemy.get_enemy_stats()
-
 # *H-E-R-O*
     for player in players:
         p_name = player.get_name()
         print("\n"+FG.BOLD+tabs(4)+spaces(5)+FG.UNDERLINE+p_name.upper()+FG.END+spaces(5)+tabs(4)+"\n")
         player.choose_action()
         print("\n\t"+FG.BOLD+tabs(2)+"USE : "+FG.END)
-        player_choice = int(readchar.readchar())
+        player_choice = readchar.readchar()
 
-        if player_choice not in default:
-            clear()
-            continue
-        if player_choice == 1:
+        while player_choice not in default_actions :
+            if player_choice not in default_actions :
+                print(tabs(2)+FG.BOLD+"WRONG CHOICE, TRY AGAIN"+FG.END)
+                player_choice = readchar.readchar()
+            else:
+                continue
+        if player_choice == 'Q' or player_choice == 'q':
+            print(tabs(5)+FG.BOLD+" GAME OVER! ")
+            exit()
+        if player_choice == 'A' or player_choice == 'a':
             player_dmg = player.generate_attack_damage()
             enemy.take_damage(player_dmg)
             print(tabs(3)+FG.BLUE+FG.BOLD+p_name+" Attacked For "+str(player_dmg)+" Damage Points"+FG.END)
             sleep(1)
-        elif player_choice == 2:
+        elif player_choice == 'M' or player_choice == 'm':
             player.choose_magic()
             print("\n"+tabs(4)+FG.BOLD+"CHOOSE MAGIC: "+FG.END)
-            player_choice = int(readchar.readchar()) - 1
-            spell = player.magic[player_choice]
+            magic_choice = int(readchar.readchar()) - 1
+            while magic_choice not in default_magic :
+                if magic_choice not in default_magic :
+                    print(tabs(4)+FG.BOLD+"WRONG CHOICE, TRY AGAIN"+FG.END)
+                    magic_choice = int(readchar.readchar()) - 1
+                else:
+                    continue
+            spell = player.magic[magic_choice]
             magical_dmg = spell.generate_spell_damage()
 
             if spell.type == 'Black':
@@ -126,18 +142,21 @@ while running:
                 print(tabs(3)+FG.RED+" You Do Not Have Enough M.P "+FG.END)
                 continue
 
-        elif player_choice == 3:
+        elif player_choice == 'I' or player_choice == 'i':
             player.choose_item()
             print("\n"+tabs(4)+FG.BOLD+"CHOOSE ITEM: "+FG.END)
-            player_choice = int(readchar.readchar()) - 1
-            item = player.items[player_choice]["item"]
-            if player_choice == -1:
-                continue
-                item = player.items[player_choice]["item"]
-            if player.items[player_choice]["quantity"] == 0:
+            item_choice = int(readchar.readchar()) - 1
+            while item_choice not in default_items :
+                if item_choice not in default_items :
+                    print(tabs(4)+FG.BOLD+"WRONG CHOICE, TRY AGAIN"+FG.END)
+                    item_choice = int(readchar.readchar()) - 1
+                else:
+                    continue
+            item = player.items[item_choice]["item"]
+            if player.items[item_choice]["quantity"] == 0:
                 print(FG.BOLD+FG.LGREY+"\nNoNe Left"+FG.END)
                 continue
-            player.items[player_choice]["quantity"] -= 1
+            player.items[item_choice]["quantity"] -= 1
             item_dmg = item.generate_item_dmg()
             if item.type == 'Weapon' or item.type == 'Poison':
                 enemy.take_damage(item_dmg)
@@ -148,7 +167,6 @@ while running:
                 print(tabs(3)+FG.BLUE+FG.BOLD+str(item.name)+" Healed For "+str(item_dmg)+" H.P "+FG.END)
                 sleep(0.5)
                          # *E-N-D-OF-H-E-R-O*
-
 # *E-N-E-M-Y*
     print("\n"+FG.BOLD+tabs(4)+spaces(4)+FG.UNDERLINE+'MELIODUS'+FG.END+spaces(4)+tabs(4)+"\n")
     enemy.choose_action()

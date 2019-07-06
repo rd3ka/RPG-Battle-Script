@@ -56,7 +56,8 @@ class Person:
       self.df = df
       self.magic = magic
       self.items = items
-      self.action = ["ATTACK","MAGIC","ITEMS"]
+      self.action = [FG.YELLOW+"Press"+FG.BOLD+" [A] "+FG.END+FG.YELLOW+"To Attack"+FG.END,FG.YELLOW+"Press"+FG.BOLD+" [M] "+FG.END+FG.YELLOW+"To Cast Magic"+FG.END,FG.YELLOW+"Press"+FG.BOLD+" [I] "+FG.END+FG.YELLOW+"To Use Items"+FG.END,
+                    FG.YELLOW+"Press"+FG.BOLD+" [Q] "+FG.END+FG.YELLOW+"To Quit"+FG.END]
 
    def get_name(self):
        return self.name
@@ -81,27 +82,26 @@ class Person:
       return self.max_mp
 
    def choose_action(self):
-      i = 1
+      i = "*"
       for index in self.action:
-         print(tabs(2)+FG.YELLOW+FG.BOLD+str(i)+":",str(index)+FG.END)
-         i += 1
+         print(tabs(2)+FG.BOLD+str(i)+FG.END,str(index))
    def choose_magic(self):
       i = 1
       for spell in self.magic:
-          if(len(spell.name)>=7):
+          if(len(spell.name)>=6):
               gap = 1
-          if(len(spell.name)<6):
+          if(len(spell.name)<5):
               gap = 2
-          print(tabs(4)+FG.LCYAN+FG.BOLD+str(i)+":"+spell.name+tabs(gap)+FG.END+"(cost:",str(spell.cost)+")")
+          print(tabs(4)+str(i)+": "+FG.LCYAN+FG.BOLD+spell.name+tabs(gap)+FG.END+"(cost:",str(spell.cost)+")")
           i +=1
    def choose_item(self):
        i = 1
        for item in self.items:
            if(len(item["item"].name)>=6):
                gap = 2
-           if(len(item["item"].name)<6):
+           if(len(item["item"].name)<5):
                gap = 3
-           print(tabs(4)+FG.BLUE+FG.BOLD+str(i)+":"+item["item"].name+FG.END+tabs(gap)+"(Type:",str(item["item"].type)
+           print(tabs(4)+str(i)+": "+FG.BLUE+FG.BOLD+item["item"].name+FG.END+tabs(gap)+"(Type:",str(item["item"].type)
                  +")"+tabs(2)+"(x"+ str(item["quantity"])+")")
            i+=1
 
