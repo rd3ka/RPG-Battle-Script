@@ -1,20 +1,6 @@
+from d3katool import spaces, tabs
+import readchar
 import random
-from .magic import spell
-from .inventory import item
-
-
-def spaces(spaces):
-    t = ""
-    for space in range(spaces):
-        t += " "
-    return t
-
-
-def tabs(tabs):
-    t = ""
-    for tab in range(tabs):
-        t += "\t"
-    return t
 
 
 class FG:
@@ -121,6 +107,39 @@ class Person:
                  + ")"+tabs(2)+"(x" + str(itm["quantity"])+")")
            i += 1
 
+   def choose_target(self, enemies):
+       choice = 0
+       i = 1
+       print(tabs(4)+FG.RED+FG.BOLD+"TARGET"+":"+FG.END+"\n")
+       for tgt in enemies:
+           if tgt.get_hp != 0:
+               print(tabs(4)+str(i)+": "+FG.PURPLE+FG.BOLD+tgt.name+FG.END)
+               i += 1
+       print("\n"+tabs(5)+FG.BOLD+"LOCK TARGET : "+"\n")
+       try:
+           buffer = readchar.readchar()
+           choice = int(buffer) - 1
+       except ValueError:
+           while buffer.isdigit() != True:
+               if buffer.isdigit() != True:
+                   buffer = readchar.readchar()
+               else:
+                   continue
+           while choice not in range(0, 4):
+                if choice not in range(0, 4):
+                    try:
+                        buffer = readchar.readchar()
+                        choice = int(buffer) - 1
+                    except ValueError:
+                        while buffer.isdigit() != True:
+                            if buffer.isdigit() != True:
+                                buffer = readchar.readchar()
+                            else:
+                                continue
+                else:
+                    continue
+       return choice
+
    def get_player_stats(self):
        hp_bar = ''
        hp_tick = (self.hp/self.max_hp)*100/4
@@ -149,8 +168,6 @@ class Person:
              + "\t"+str(self.mp)+"/"+str(self.max_mp)+"\t"+FG.LBLUE+str(mp_bar)+FG.END+"\n")
 
    def get_enemy_stats(self):
-       print(tabs(1)+'-'*82 + "\n")
-
        hp_bar = ''
        hp_tick = (self.hp/self.max_hp)*100/4
        mp_bar = ''
@@ -174,5 +191,5 @@ class Person:
        if len(self.name) > 13:
           space = '\t'
 
-       print("\t"+FG.BOLD+FG.RED+str(self.name)+FG.END+":"+str(space)+str(self.hp)+"/"+str(self.max_hp)+spaces(2)+FG.RED+str(hp_bar)+FG.END
-             + spaces(2)+str(self.mp)+"/"+str(self.max_mp)+"\t"+FG.PURPLE+str(mp_bar)+FG.END+"\n")
+       print("\t"+FG.BOLD+FG.RED+str(self.name)+FG.END+" : "+str(space)+str(self.hp)+"/"+str(self.max_hp)+spaces(3)+FG.RED+str(hp_bar)+FG.END
+             + "\t"+str(self.mp)+"/"+str(self.max_mp)+"\t"+FG.PURPLE+str(mp_bar)+FG.END+"\n")

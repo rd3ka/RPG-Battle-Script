@@ -2,46 +2,9 @@
 from classes.game import Person, FG
 from classes.magic import spell
 from classes.inventory import item
-from os import system, name
 from time import sleep
-from urllib.request import urlopen
-import subprocess
-
-#Functions To-Ease-Work
-
-
-def install(name):
-    subprocess.call(['pip', 'install', name])
-
-
-def connection():
-    try:
-        urlopen('http://216.58.192.142', timeout=1)
-        return "Active"
-    except:
-        return "InActive"
-
-
-def clear():
-    if name == 'nt':
-        _ = system('cls')
-    else:
-        _ = system('clear')
-
-
-def spaces(spaces):
-    t = ""
-    for space in range(spaces):
-        t += " "
-    return t
-
-
-def tabs(tabs):
-    t = ""
-    for tab in range(tabs):
-        t += "\t"
-    return t
-
+from d3katool import install, connection, clear, spaces, tabs
+import random
 
 try:
     import readchar
@@ -51,14 +14,13 @@ except ImportError:
         print('Try Installing It Manually Or Run This Program Again With An Active-Internet-Connection')
         exit()
     elif(connection() == "Active"):
-        print("ReadChar Package Not Found, PIP Will Now Install The Lastest Version Of ReadChar For You,Please Wait Till The Installation Completes")
+        print("ReadChar Package Not Found, PIP Will Now Install The Lastest Version Of "
+              + "ReadChar For You,Please Wait Till The Installation Completes")
         install('readchar')
         import readchar
 
 clear()
 default_actions = ['a', 'm', 'i', 'q', 'A', 'M', 'I', 'Q']
-default_magic = [0, 1, 2, 3, 4, 5, 6]
-default_items = [0, 1, 2, 3, 4]
 magic_choice = 0
 item_choice = 0
 #Object-Initialization
@@ -88,16 +50,19 @@ magic_list = [fire, thunder, blizzard, meteor, quake, cure, cura]
 
 #Name,Health-Points,Attack,Magic-Points,Defence,Magic-Spells,Items-To-Be-Used
 player1 = Person(input(FG.BOLD+FG.YELLOW+tabs(2)+"Enter Your Name Hero : "
-                       + FG.END+"\n"+tabs(4)).upper(), 6600, 660, 90, 125, magic_list, item_list)
+                       + FG.END+"\n\n"+tabs(4)).upper(), 6600, 660, 90, 125, magic_list, item_list)
 player2 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "
-                       + FG.END+"\n"+tabs(4)).upper(), 2400, 240, 40, 75, magic_list, item_list)
+                       + FG.END+"\n\n"+tabs(4)).upper(), 2400, 240, 40, 75, magic_list, item_list)
 player3 = Person(input("\n\n"+FG.BOLD+FG.YELLOW+tabs(2)+"Enter The Name Of Your First Ally : "
-                       + FG.END+"\n"+tabs(4)).upper(), 2400, 240, 40, 75, magic_list, item_list)
+                       + FG.END+"\n\n"+tabs(4)).upper(), 2400, 240, 40, 75, magic_list, item_list)
 
 players = [player1, player2, player3]
-enemy = Person('MELIODUS', 17200, 610, 75, 30, [], [])
 
+enemy1 = Person('RAKTIM', 17200, 610, 75, 125, magic_list, item_list)
+enemy2 = Person('sample1', 5500, 300, 45, 80, magic_list, item_list)
+enemy3 = Person('sample2', 5500, 300, 45, 80, magic_list, item_list)
 
+enemies = [enemy1, enemy2, enemy3]
 running = True
 clear()
 #GAME-LOOP
@@ -107,7 +72,10 @@ while running:
     for player in players:
         player.get_player_stats()
 
-    enemy.get_enemy_stats()
+    print(tabs(1)+'-'*82 + "\n")
+
+    for enemy in enemies:
+        enemy.get_enemy_stats()
 #HERO
     for player in players:
         p_name = player.get_name()
@@ -124,19 +92,25 @@ while running:
                 continue
         if player_choice == 'Q' or player_choice == 'q':
             print(tabs(4)+FG.BOLD
-                  + str("Do You Really Want To Quit,Press Y/N").upper()+"\n")
+                  + str("Do You Really Want To Quit? Press Y/N").upper()+"\n")
             decision = readchar.readchar()
             if decision == 'Y' or decision == 'y':
                 clear()
-                print("\n"*10+tabs(5)+FG.BOLD+" GAME OVER! "*5)
+                print("\n"+FG.BOLD+" GAME OVER! "*10+"\n")
+                sleep(3)
                 exit()
+
             elif decision == 'N' or decision == 'n':
                 pass
         if player_choice == 'A' or player_choice == 'a':
+            target = player.choose_target(enemies)
+            if enemies[target].get_hp() == 0:
+                print(str(enemies[target].name).upper()+" Has Perished")
+                del enemies[target]
             player_dmg = player.generate_attack_damage()
-            enemy.take_damage(player_dmg)
-            print(tabs(3)+FG.BLUE+FG.BOLD+p_name+" Attacked For "
-                  + str(player_dmg)+" Damage Points"+FG.END)
+            enemies[target].take_damage(player_dmg)
+            print(tabs(3)+FG.BLUE+FG.BOLD+p_name+" Attacked "
+                  + enemies[target].name+" For "+str(player_dmg)+" Damage Points"+FG.END)
             sleep(1)
         elif player_choice == 'M' or player_choice == 'm':
             player.choose_magic()
@@ -150,8 +124,8 @@ while running:
                         buffer = readchar.readchar()
                     else:
                         continue
-            while magic_choice not in default_magic:
-                if magic_choice not in default_magic:
+            while magic_choice not in range(0, 7):
+                if magic_choice not in range(0, 7):
                     try:
                         buffer = readchar.readchar()
                         magic_choice = int(buffer) - 1
@@ -165,16 +139,17 @@ while running:
                     continue
             spell = player.magic[magic_choice]
             magical_dmg = spell.generate_spell_damage()
+            target = player.choose_target(enemies)
 
             if spell.type == 'Black':
-                enemy.take_damage(magical_dmg)
-                print(tabs(3)+FG.BLUE+FG.BOLD+str(spell.name)+" Attacked For "
-                      + str(magical_dmg)+" Damage Points"+FG.END)
+                enemies[target].take_damage(magical_dmg)
+                print(tabs(3)+FG.BLUE+FG.BOLD+str(spell.name)+" Attacked "
+                      + enemies[target].name+" For "+str(magical_dmg)+" Damage Points"+FG.END)
                 sleep(1)
             if spell.type == 'White':
                 player.heal(magical_dmg)
                 print(tabs(3)+FG.BLUE+FG.BOLD+str(spell.name)
-                      + " Healed For "+str(magical_dmg)+" H.P "+FG.END)
+                      + " Healed For "+" "+str(magical_dmg)+" H.P "+FG.END)
                 sleep(1)
 
             player.reduce_mp(spell.cost)
@@ -195,8 +170,8 @@ while running:
                         buffer = readchar.readchar()
                     else:
                         continue
-            while item_choice not in default_items:
-                if item_choice not in default_items:
+            while item_choice not in range(0, 5):
+                if item_choice not in range(0, 5):
                     try:
                         buffer = readchar.readchar()
                         item_choice = int(buffer) - 1
@@ -209,40 +184,108 @@ while running:
                 else:
                     continue
             item = player.items[item_choice]["item"]
+            target = player.choose_target(enemies)
             if player.items[item_choice]["quantity"] == 0:
                 print(FG.BOLD+FG.LGREY+"\nNoNe Left"+FG.END)
                 continue
             player.items[item_choice]["quantity"] -= 1
             item_dmg = item.generate_item_dmg()
             if item.type == 'Weapon' or item.type == 'Poison':
-                enemy.take_damage(item_dmg)
+                enemies[target].take_damage(item_dmg)
                 print(tabs(3)+FG.BLUE+FG.BOLD+str(item.name)
-                      + " Attacked For "+str(item_dmg)+" Damage Point "+FG.END)
+                      + " Attacked "+enemies[target].name+" For "+str(item_dmg)+" Damage Point "+FG.END)
                 sleep(0.5)
             if item.type == 'Medical' or item.type == 'Food':
                 player.heal(item_dmg)
                 print(tabs(3)+FG.BLUE+FG.BOLD+str(item.name)
                       + " Healed For "+str(item_dmg)+" H.P "+FG.END)
                 sleep(0.5)
-#ENEMY
-    print("\n"+FG.BOLD+tabs(4)+spaces(4)+FG.UNDERLINE
-          + 'MELIODUS'+FG.END+spaces(4)+tabs(4)+"\n")
-    enemy.choose_action()
-    enemy_choice = 1
-    if enemy_choice == 1:
-        enemy_dmg = int(enemy.generate_attack_damage()/3)
 
-        for player in players:
-            player.take_damage(enemy_dmg)
-
-        print(tabs(3)+FG.PURPLE+FG.BOLD+"MELIODUS"+" Attacked For "
-              + str(enemy_dmg)+" Damage Points"+FG.END+"\n")
-        sleep(2)
-        clear()
-
-    if enemy.get_hp() == 0:
+    fallen_enemies = 0
+    fallen_players = 0
+    for enemy in enemies:
+        if enemy.get_hp == 0:
+            fallen_enemies += 1
+    for player in players:
+        if player.get_hp == 0:
+            fallen_players += 1
+    if fallen_enemies == 2:
         print(FG.GREEN+FG.BOLD+"YOU WIN"+FG.END)
         running = False
-    elif player.get_hp() == 0:
+    elif fallen_players == 2:
         print(FG.RED+FG.BOLD+"YOU LOST , GAME OVER"+FG.END)
         running = False
+
+    clear()
+
+#ENEMY
+    for player in players:
+        player.get_player_stats()
+
+    print(tabs(1)+'-'*82 + "\n")
+
+    for enemy in enemies:
+        enemy.get_enemy_stats()
+
+    for enemy in enemies:
+        print("\n"+FG.BOLD+tabs(4)+spaces(4)+FG.UNDERLINE
+              + str(enemy.name).upper()+FG.END+spaces(4)+tabs(4)+"\n")
+
+        enemy.choose_action()
+        enemy_choice = random.randrange(1, 4)
+
+        if enemy_choice == 1:
+            enemy_dmg = enemy.generate_attack_damage()
+            target = random.randrange(1, 4)
+            players[target].take_damage(enemy_dmg)
+            print("\n"+tabs(3)+FG.PURPLE+FG.BOLD+str(enemy.name).upper()+" Attacked "
+                  + str(players[target].name)+" For "+str(enemy_dmg)+" Damage Points"+FG.END+"\n")
+            sleep(2)
+
+        elif enemy_choice == 2:
+            enemy.choose_magic()
+            enemy_spell_choice = random.randrange(0, len(magic_list))
+            #print("magic",enemy_spell_choice)
+            spell = enemy.magic[enemy_spell_choice]
+            enemy_magical_dmg = spell.generate_spell_damage()
+            target = random.randrange(0, 4)
+
+            if spell.type == 'Black':
+                players[target].take_damage(enemy_magical_dmg)
+                print(tabs(3)+FG.BLUE+FG.BOLD+str(spell.name)+" Attacked "
+                      + str(players[target].name)+" For "+str(enemy_magical_dmg)+" Damage Points"+FG.END)
+                sleep(1.8)
+            if spell.type == 'White':
+                enemy.heal(enemy_magical_dmg)
+                print(tabs(3)+FG.BLUE+FG.BOLD+str(spell.name)
+                      + " Healed For "+str(enemy_magical_dmg)+" H.P "+FG.END)
+                sleep(1.8)
+
+                enemy.reduce_mp(spell.cost)
+
+            if spell.cost > enemy.get_mp():
+                #print(tabs(3)+FG.RED+" You Do Not Have Enough M.P "+FG.END)
+                continue
+        elif enemy_choice == 3:
+            enemy.choose_item()
+            enemy_item_choice = random.randrange(0, len(item_list))
+            item = enemy.items[enemy_item_choice]["item"]
+            target = random.randrange(0, 4)
+            if enemy.items[enemy_item_choice]["quantity"] == 0:
+                #print(FG.BOLD+FG.LGREY+"\nNoNe Left"+FG.END)
+                continue
+            enemy.items[enemy_item_choice]["quantity"] -= 1
+            item_dmg = item.generate_item_dmg()
+
+            if item.type == 'Weapon' or item.type == 'Poison':
+                players[target].take_damage(item_dmg)
+                print(tabs(3)+FG.BLUE+FG.BOLD+str(item.name)
+                      + " Attacked "+str(players[target].name)+" For "+str(item_dmg)+" Damage Point "+FG.END)
+                sleep(1.8)
+
+            if item.type == 'Medical' or item.type == 'Food':
+                enemy.heal(item_dmg)
+                print(tabs(3)+FG.BLUE+FG.BOLD+str(item.name)
+                      + " Healed For "+str(item_dmg)+" H.P "+FG.END)
+                sleep(1.8)
+    clear()
