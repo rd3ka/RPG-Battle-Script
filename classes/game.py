@@ -1,7 +1,6 @@
-from d3katool import spaces, tabs
+from .d3katool import spaces, tabs
 import readchar
 import random
-
 
 class FG:
    BLACK = '\033[30m'

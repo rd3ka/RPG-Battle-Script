@@ -2,8 +2,8 @@
 from classes.game import Person, FG
 from classes.magic import spell
 from classes.inventory import item
+from classes.d3katool import install, connection, clear, spaces, tabs
 from time import sleep
-from d3katool import install, connection, clear, spaces, tabs
 import random
 
 try:
@@ -236,7 +236,7 @@ while running:
 
         if enemy_choice == 1:
             enemy_dmg = enemy.generate_attack_damage()
-            target = random.randrange(1, 4)
+            target = random.randrange(0, 3)
             players[target].take_damage(enemy_dmg)
             print("\n"+tabs(3)+FG.PURPLE+FG.BOLD+str(enemy.name).upper()+" Attacked "
                   + str(players[target].name)+" For "+str(enemy_dmg)+" Damage Points"+FG.END+"\n")
@@ -248,7 +248,7 @@ while running:
             #print("magic",enemy_spell_choice)
             spell = enemy.magic[enemy_spell_choice]
             enemy_magical_dmg = spell.generate_spell_damage()
-            target = random.randrange(0, 4)
+            target = random.randrange(0,4)
 
             if spell.type == 'Black':
                 players[target].take_damage(enemy_magical_dmg)
@@ -270,14 +270,16 @@ while running:
             enemy.choose_item()
             enemy_item_choice = random.randrange(0, len(item_list))
             item = enemy.items[enemy_item_choice]["item"]
-            target = random.randrange(0, 4)
+            target = random.randrange(0, 3)
             if enemy.items[enemy_item_choice]["quantity"] == 0:
                 #print(FG.BOLD+FG.LGREY+"\nNoNe Left"+FG.END)
                 continue
             enemy.items[enemy_item_choice]["quantity"] -= 1
             item_dmg = item.generate_item_dmg()
+            print(item_dmg)
 
             if item.type == 'Weapon' or item.type == 'Poison':
+                print(target)
                 players[target].take_damage(item_dmg)
                 print(tabs(3)+FG.BLUE+FG.BOLD+str(item.name)
                       + " Attacked "+str(players[target].name)+" For "+str(item_dmg)+" Damage Point "+FG.END)
