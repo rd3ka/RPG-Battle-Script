@@ -3,7 +3,7 @@ from urllib.request import urlopen
 import subprocess
 
 def install(name):
-    subprocess.call(['pip', 'install', name])
+    subprocess.call(['pip3', 'install', name])
 
 def connection():
     try:

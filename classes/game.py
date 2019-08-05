@@ -1,5 +1,16 @@
-from .d3katool import spaces, tabs
-import readchar
+from .d3katool import *
+try:
+    import readchar
+except ModuleNotFoundError:
+    if  connection() == "InActive":
+        print("\n"+"Installation Of Package ReadChar Failed Due To No-Internet-Connection")
+        print('Try Installing It Manually Or Run This Program Again With An Active-Internet-Connection')
+        exit()
+    elif connection() == "Active":
+        print("ReadChar Package Not Found, PIP Will Now Install The Lastest Version Of "
+              + "ReadChar For You,Please Wait Till The Installation Completes")
+        install('readchar')
+        import readchar
 import random
 
 class FG:

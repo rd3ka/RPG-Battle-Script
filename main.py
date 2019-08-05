@@ -2,18 +2,18 @@
 from classes.game import Person, FG
 from classes.magic import spell
 from classes.inventory import item
-from classes.d3katool import install, connection, clear, spaces, tabs
+from classes.d3katool import *
 from time import sleep
 import random
 
 try:
     import readchar
-except ImportError:
-    if(connection() == "InActive"):
+except ModuleNotFoundError:
+    if connection() == "InActive":
         print("\n"+"Installation Of Package ReadChar Failed Due To No-Internet-Connection")
         print('Try Installing It Manually Or Run This Program Again With An Active-Internet-Connection')
         exit()
-    elif(connection() == "Active"):
+    elif connection() == "Active":
         print("ReadChar Package Not Found, PIP Will Now Install The Lastest Version Of "
               + "ReadChar For You,Please Wait Till The Installation Completes")
         install('readchar')
@@ -291,3 +291,4 @@ while running:
                       + " Healed For "+str(item_dmg)+" H.P "+FG.END)
                 sleep(1.8)
     clear()
+
