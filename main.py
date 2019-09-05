@@ -25,7 +25,7 @@ magic_choice = 0
 item_choice  = 0
 
 Shuriken 	= item("Shuriken", "Weapon","A Ninja Blade Of ATK Type Dealing Damage", 80)
-Purple_Rose = item("Purple Rose", "Poison","A Potion Of Poison Dealing Damage", 100)
+Purple_Rose 	= item("Purple Rose", "Poison","A Potion Of Poison Dealing Damage", 100)
 Kunai 		= item("Kunai", "Weapon","A Ninja Blade of ATK Type Dealing 45 Damage", 45)
 Ramen 		= item("Ramen", "Food", "SuperMeal To Increase H.P by 30%", 35)
 Elixer		= item("Elixer", "Medical", "A Potion To Increase H.P by 50%", 50)
