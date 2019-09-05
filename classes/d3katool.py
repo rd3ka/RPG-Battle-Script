@@ -29,3 +29,9 @@ def tabs(tabs):
     for tab in range(tabs):
         t += "\t"
     return t
+
+def ListtoStr(s, *args):
+    new = ""
+    for x in s:
+        new += x
+    return new
