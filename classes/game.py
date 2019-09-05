@@ -93,7 +93,7 @@ class Person:
    def choose_action(self):
       i = "*"
       for index in self.action:
-         print(tabs(2)+FG.BOLD+str(i)+FG.END, str(index))
+         print(tabs(4)+FG.BOLD+str(i)+FG.END, str(index))
 
    def choose_magic(self):
       i = 1
@@ -105,6 +105,7 @@ class Person:
           print(tabs(4)+str(i)+": "+FG.LCYAN+FG.BOLD+spl.name
                 + tabs(gap)+FG.END+"(cost:", str(spl.cost)+")")
           i += 1
+      print("")
 
    def choose_item(self):
        i = 1
@@ -116,6 +117,7 @@ class Person:
            print(tabs(4)+str(i)+": "+FG.BLUE+FG.BOLD+itm["item"].name+FG.END+tabs(gap)+"(Type:", str(itm["item"].type)
                  + ")"+tabs(2)+"(x" + str(itm["quantity"])+")")
            i += 1
+       print("")
 
    def choose_target(self, enemies):
        choice = 0
@@ -178,7 +180,7 @@ class Person:
              + "\t"+str(self.mp)+"/"+str(self.max_mp)+"\t"+FG.LBLUE+str(mp_bar)+FG.END+"\n")
 
    def get_enemy_stats(self):
-       hp_bar = ''
+       hp_bar = space = ''
        hp_tick = (self.hp/self.max_hp)*100/4
        mp_bar = ''
        mp_tick = (self.mp/self.max_mp)*100/10
@@ -194,12 +196,12 @@ class Person:
        while len(mp_bar) < 10:
        	  mp_bar += " "
 
-       if len(self.name) > 4 and len(self.name) < 13:
+       if len(self.name) > 3 and len(self.name) < 13:
           space = '\t\t'
        if len(self.name) < 5:
           space = '\t\t\t'
        if len(self.name) > 13:
           space = '\t'
 
-       print("\t"+FG.BOLD+FG.RED+str(self.name)+FG.END+" : "+str(space)+str(self.hp)+"/"+str(self.max_hp)+spaces(3)+FG.RED+str(hp_bar)+FG.END
+       print("\t"+FG.BOLD+FG.RED+str(self.name)+FG.END+" : "+str(space)+str(self.hp)+"/"+str(self.max_hp)+spaces(2)+FG.RED+str(hp_bar)+FG.END
              + "\t"+str(self.mp)+"/"+str(self.max_mp)+"\t"+FG.PURPLE+str(mp_bar)+FG.END+"\n")
