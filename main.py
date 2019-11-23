@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from classes.game import Person, FG
+from classes.game import Person, FG, Banner
 from classes.magic import spell
 from classes.inventory import item
 from classes.d3katool import *
@@ -45,8 +45,9 @@ cura     = spell("CURA", 24, 80, "White")
 
 magic_list = [fire, thunder, blizzard, meteor, quake, cure, cura]
 
-player1 = Person(input(FG.BOLD+FG.YELLOW+tabs(2)+"Enter Your Name Hero! : "
-                + FG.END+"\n\n"+tabs(4)), 6600, 660, 90, 125, magic_list, item_list)
+Banner.banner()
+                                                  
+player1 = Person(input(FG.BOLD+FG.YELLOW+tabs(2)+"\n\tEnter Your Name Hero!"+tabs(1)+":"+ FG.END+tabs(1)), 6600, 660, 90, 125, magic_list, item_list)
 player2 = Person('BatmanBecameDeadPool', 2400, 240, 40, 75, magic_list, item_list)
 player3 = Person('FirePhoenix', 2400, 240, 40, 75, magic_list, item_list)
 
