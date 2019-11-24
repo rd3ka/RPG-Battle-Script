@@ -1,8 +1,10 @@
+import subprocess
 from os import system, name
 from urllib.request import urlopen
-import subprocess
 
-def install(name) : subprocess.call(['pip3', 'install', name])
+
+def install(name): subprocess.call(['pip3', 'install', name])
+
 
 def connection():
     try:
@@ -11,11 +13,13 @@ def connection():
     except:
         return "InActive"
 
+
 def clear():
     if name == 'nt':
         _ = system('cls')
     else:
         _ = system('clear')
+
 
 def spaces(spaces):
     t = ""
@@ -23,11 +27,20 @@ def spaces(spaces):
         t += " "
     return t
 
+
 def tabs(tabs):
     t = ""
     for tab in range(tabs):
         t += "\t"
     return t
+
+
+def nLine(val):
+    t = ""
+    for newLine in range(val):
+        t += "\n"
+    return t
+
 
 def ListtoStr(s, *args):
     new = ""
